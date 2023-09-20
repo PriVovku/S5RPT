@@ -34,29 +34,135 @@ body {font-family: Arial, Helvetica, sans-serif;margin:0}
     display: block;
   }
 }
+body {
+	background: linear-gradient(-45deg, #ffa500, #5dbb63, #23a6d5, #23d5ab);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+	height: 100vh;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+div.center {
+  width: 1500px;
+  padding: 15px;
+  box-sizing: border-box;
+  margin-left: auto;
+    margin-right: auto;
+  background-color: rgb(255, 255, 255);
+}
+.sredina {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+
+}
+* {
+  box-sizing: border-box;
+}
+:root {
+  --background-color: black;
+  --text-color: hsl(0, 0%, 100%);
+}
+body {
+  margin: 0;
+}
+.wrapper {
+  display: grid;
+  place-content: center;
+
+  min-height: 100vh;
+  font-family: "Oswald", sans-serif;
+  font-size: clamp(1.5rem, 1rem + 18vw, 15rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+.wrapper > div {
+  grid-area: 1/1/-1/-1;
+}
+.top {
+  clip-path: polygon(0% 0%, 100% 0%, 100% 48%, 0% 58%);
+}
+.bottom {
+  clip-path: polygon(0% 60%, 100% 50%, 100% 100%, 0% 100%);
+  color: transparent;
+  background: -webkit-linear-gradient(177deg, orange 53%, var(--text-color) 65%);
+  background: linear-gradient(177deg, orange 53%, var(--text-color) 65%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  transform: translateX(-0.02em);
+}
+
 </style>
 <body>
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@1,300&family=Rajdhani:wght@500&display=swap" rel="stylesheet">
 <div class="navbar">
-  <a class="active" href="#"><i class="fa fa-fw fa-home"></i> Domača stran</a> 
+  <a class="active" href=""><i class="fa fa-fw fa-home"></i> Domača stran</a> 
   <a href="/s5rpt"><i class="fa fa-fw fa-search"></i> Iskanje repetitorjev</a> 
   <a href="/zajcek"><i class="fa fa-fw fa-envelope"></i> Zajček</a> 
   <a href="/prijava"><i class="fa fa-fw fa-user"></i> Prijava</a>
 </div class="navbar"></div>
 
-  <div class="columns">
+<div style="width:100%">
+  <div style="width:100%">
+    <section class="wrapper">
+      <div class="top">Primož Vovk</div>
+      <div class="bottom" aria-hidden="true">Primož Vovk</div>
+      
 
-    <div class="column">
-<img src="https://www.memecreator.org/static/images/memes/5192394.jpg">
-    </div class="column">
-<p> Pozdravljen, sem Primož, prijatelji me kličejo Vovk. Sem radioamater in prihajam iz dežele Notranjske, iz lepe vasice Unec. </p>
+    
+    </section>
+      </div>
 
-<p> Velikokrat me boš slišal z mojo Baofeng postajo (GT-3TP), ki ima na levi strani gumb za PTT. <br> Če me boš slišal in se ti bo zdelo da je prelepa modulacija, potem najverjetnje uporabljam Kenwood TH-K20. </p>
+      <div class="sredina" style="font-family: 'Rajdhani', sans-serif; font-size: 50px; color: rgb(0, 0, 0)>
+        <p>  style="line-height: 0.8">
+        <p> Primož Vovk, rojen leta 2004. Trenutno sem dijak na srednji šoli Vegova Ljubljana, 
+          kjer aktivno sledim svoji strasti do elektrotehnike. Moje sanje in cilji so povezani s tem področjem,
+           saj si želim postati izkušen elektrotehnik,
+           ki bo soustvarjal prihodnost te tehnološko napredne industrije.</p>
 
-<p> Lep dan naprej </p>
+          <p>Poleg svojih šolskih obveznosti se strastno ukvarjam tudi z radioamaterstvom. 
+          To je moj hobi, ki mi omogoča, da raziskujem različne vidike komunikacije in se povezujem s sorodnimi entuziasti po vsem svetu. 
+          To me vzpodbuja k učenju in razvoju novih veščin.</p>
+          
+          Zavezujem se, da bom svoje znanje in veščine iz elektrotehnike ter
+           izkušnje iz radioamaterstva uporabil za soustvarjanje inovativnih rešitev in prispeval k razvoju tehnologije ter
+            komunikacije. Moje ambicije so visoke, a sem pripravljen trdo delati, da jih uresničim.
+            <p class="desna">
+            73</p>
+          </div>
 
-<p> 73 </p>
-</div class="columns">
+          
+
+
+
+</div>
+</div>
+
+
 </body>
 </html> 
 
