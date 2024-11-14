@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 384 512'%3E%3C!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--%3E%3Cpath d='M96 0C78.3 0 64 14.3 64 32l0 96 64 0 0-96c0-17.7-14.3-32-32-32zM288 0c-17.7 0-32 14.3-32 32l0 96 64 0 0-96c0-17.7-14.3-32-32-32zM32 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l0 32c0 77.4 55 142 128 156.8l0 67.2c0 17.7 14.3 32 32 32s32-14.3 32-32l0-67.2C297 398 352 333.4 352 256l0-32c17.7 0 32-14.3 32-32s-14.3-32-32-32L32 160z'/%3E%3C/svg%3E" />
+    <title>Časovni blok?</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            text-align: center;
+        }
+
+        .timeline {
+            position: relative;
+            height: 30px;
+            width: 100%;
+            background-color: lightgray;
+            border-radius: 10px;
+            margin-top: 20px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .segment {
+            height: 100%;
+        }
+
+        .segment-label {
+            font-size: 0.8em;
+            color: #333;
+            text-align: left;
+            margin-left: 7px;
+            margin-top: 7px;
+        }
+
+        .current-time-pointer {
+            position: absolute;
+            top: -10px;
+            width: 4px;
+            height: 50px;
+            background-color: black;
+            transition: left 0.5s;
+        }
+
+        .clock {
+            font-size: 2em;
+            color: #333;
+            margin-top: 20px;
+        }
+        .zone-display {
+            font-size: 1em;
+            color: #333;
+            margin-top: 20px;
+        }
+        .price-display {
+            font-size: 4em;
+            color: #333;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <svg xmlns="http://www.w3.org/2000/svg" height="32" width="24" viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#333333" d="M96 0C78.3 0 64 14.3 64 32l0 96 64 0 0-96c0-17.7-14.3-32-32-32zM288 0c-17.7 0-32 14.3-32 32l0 96 64 0 0-96c0-17.7-14.3-32-32-32zM32 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l0 32c0 77.4 55 142 128 156.8l0 67.2c0 17.7 14.3 32 32 32s32-14.3 32-32l0-67.2C297 398 352 333.4 352 256l0-32c17.7 0 32-14.3 32-32s-14.3-32-32-32L32 160z"/></svg>
+        <div class="price-display" id="priceDisplay"> </div>
+        <div class="zone-display" id="zoneDisplay"> </div>
+        <div class="clock" id="clock"></div>
+        <div class="timeline" id="timeline">
+            <div id="pointer" class="current-time-pointer"></div>
+        </div>
+    </div>
+
+    <script>
+        // Define time segments based on uro.si)
+        const segments = [
+            { start: 0, end: 6, color: '#a5d46a' },    // 0:00 - 6:00
+            { start: 6, end: 7, color: '#ffdf80' },    // 6:00 - 7:00
+            { start: 7, end: 14, color: '#ffa080' },   // 7:00 - 14:00
+            { start: 14, end: 16, color: '#ffdf80' },  // 14:00 - 16:00
+            { start: 16, end: 20, color: '#ffa080' },  // 16:00 - 20:00
+            { start: 20, end: 22, color: '#ffdf80' },  // 20:00 - 22:00
+            { start: 22, end: 24, color: '#a5d46a' }   // 22:00 - 24:00
+        ];
+
+        const timeline = document.getElementById('timeline');
+
+        // Generate timeline segments based on the segments data
+        segments.forEach(segment => {
+            const segmentDiv = document.createElement('div');
+            const widthPercentage = ((segment.end - segment.start) / 24) * 100;
+            segmentDiv.classList.add('segment');
+            segmentDiv.style.width = `${widthPercentage}%`;
+            segmentDiv.style.backgroundColor = segment.color;
+
+            // hour label
+            const label = document.createElement('div');
+            label.classList.add('segment-label');
+            label.innerHTML = `${segment.start}:00`;
+            segmentDiv.appendChild(label);
+
+            timeline.appendChild(segmentDiv);
+        });
+
+function getSeason() {
+            const now = new Date();
+            const month = now.getMonth() + 1;
+            if (month >= 11 || month <= 2) {
+                return "low"; // High season from November to February
+            } else {
+                return "high"; // Low season from March to October
+            }
+        }
+
+        function isWorkingDay() {
+            const now = new Date();
+            const day = now.getDay();
+            return day !== 0 && day !== 6; // 0 is Sunday, 6 is Saturday
+        }
+        function getZone() {
+            const season = getSeason();
+            const workingDay = isWorkingDay();
+            const now = new Date();
+            const hour = now.getHours();
+            let zone;
+
+            const zones = {
+                low: {
+                    workingDay: [3, 3, 2, 1, 1, 1, 2, 2, 1, 1, 2, 2, 3, 3],
+                    nonWorkingDay: [4, 4, 3, 2, 2, 2, 3, 3, 2, 2, 3, 3, 4, 4]
+                },
+                high: {
+                    workingDay: [4, 4, 3, 2, 2, 2, 3, 3, 2, 2, 3, 3, 4, 4],
+                    nonWorkingDay: [5, 5, 4, 3, 3, 3, 4, 4, 3, 3, 4, 4, 5, 5]
+                }
+            };
+
+            const hourIndex = Math.floor(hour / 2);
+            zone = workingDay ? zones[season].workingDay[hourIndex] : zones[season].nonWorkingDay[hourIndex];
+
+            return zone;
+        }
+
+        function getPrice(number) {
+                if (number === 1) {
+                    return '€€€€€';
+                } else if (number === 2) {
+                    return '€€€€_';
+                } else if (number === 3) {
+                    return '€€€__';
+                } else if (number === 4) {
+                    return '€€___';
+                } else if (number === 5) {
+                    return '€____';
+                }
+            return '';
+        }
+
+        function updateZoneDisplay() {
+            const zone = getZone();
+            const price = getPrice(zone); 
+
+            document.getElementById('zoneDisplay').innerText = `Tarifa: ${zone}`;
+            document.getElementById('priceDisplay').innerText = `${price}`;
+        }
+
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+
+            // Update clock display
+            const clock = document.getElementById('clock');
+            clock.innerHTML = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+            // Calculate position of the pointer as a percentage
+            const percentOfDay = (totalSeconds / 86400) * 100;
+            const pointer = document.getElementById('pointer');
+            pointer.style.left = `${percentOfDay}%`;
+        }
+
+        setInterval(updateClock, 1000);
+        updateZoneDisplay();
+        updateClock(); // Initial call to set the clock and pointer position
+    </script>
+    <div class="legend" style="margin-top: 20px; text-align: left;">
+        <p><span style="display: inline-block; width: 15px; height: 15px; background-color: #a5d46a; margin-right: 5px; border-radius: 10px;"></span>Cenejši blok</p>
+        <p><span style="display: inline-block; width: 15px; height: 15px; background-color: #ffdf80; margin-right: 5px; border-radius: 10px;"></span>Srednji blok</p>
+        <p><span style="display: inline-block; width: 15px; height: 15px; background-color: #ffa080; margin-right: 5px; border-radius: 10px;"></span>Drag blok</p>
+    </div>
+    <div>
+        <p>Tarifa 1 = najdražja ... Tarifa 5 = najcenejša</p>
+    </div>
+</body>
+    <footer style="margin-top: 10px; font-size: 0.8em;">
+        Vir: <a href="http://www.uro.si" target="_blank">http://www.uro.si</a> Ikone https://fontawesome.com/
+         <p xmlns:cc="http://creativecommons.org/ns#" ><a href="https://creativecommons.org/publicdomain/zero/1.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC0 1.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1" alt=""><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/zero.svg?ref=chooser-v1" alt=""></a></p>
+    </footer>
+</html>
