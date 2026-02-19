@@ -1,0 +1,133 @@
+body {
+            background-color: #05210b;
+            color: #23D962;
+            font-family: 'VT323', monospace;
+            font-size: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            padding: 30px;
+            box-sizing: border-box;
+            overflow: hidden;
+            text-shadow: 0 0 5px rgba(35, 217, 98, 0.5);
+        }
+
+        body::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%);
+            z-index: 10;
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+
+        #terminal {
+            flex-grow: 1;
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+
+        #terminal::-webkit-scrollbar { display: none; }
+
+        pre {
+            font-family: 'VT323', monospace;
+            line-height: 1;
+            color: #23D962;
+            margin: 0;
+            white-space: pre;
+            font-weight: 900; 
+            text-shadow: 0 0 2px #23D962, 0 0 8px rgba(35, 217, 98, 0.8);
+            letter-spacing: 1px;
+        }
+
+        .input-line {
+            display: flex;
+            align-items: center;
+            z-index: 11;
+            margin-top: 20px;
+        }
+
+        .prompt {
+            color: #23D962;
+            font-weight: bold;
+            margin-right: 10px;
+            white-space: nowrap;
+        }
+
+        /* Skrijemo pravi kurzor in input */
+        #command-input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            cursor: default;
+            caret-color: transparent;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 12px;
+            height: 1.4rem;
+            background-color: #23D962;
+            margin-left: 2px;
+            animation: blink 0.8s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .response { 
+            color: #23D962; 
+            margin-bottom: 15px; 
+            padding-left: 10px; 
+            white-space: pre-wrap;
+        }
+
+        .history-item { margin-top: 5px; }
+
+        .response a {
+    color: #ffff00; /* Rumena barva, da izstopa */
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.response a:hover {
+    background-color: #23D962;
+    color: #05210b;
+}
+
+.cursor {
+    display: inline-block;
+    width: 10px;
+    height: 20px;
+    background-color: #23D962;
+    animation: blink 0.8s infinite;
+    vertical-align: middle;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.cursor-active {
+    background-color: #23D962; /* Zelena barva tvojega terminala */
+    color: #000;              /* Tekst pod kurzorjem naj bo črn za kontrast */
+    display: inline-block;
+    min-width: 8px;
+    line-height: 1;
+}
+
+pre {
+    white-space: pre; /* Prepreči prelamljanje vrstic */
+    overflow-x: auto; /* Omogoči vodoravno drsenje, če je slika preširoka */
+}
