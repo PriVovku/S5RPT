@@ -1,100 +1,133 @@
+/* --- OSNOVA --- */
+* {
+    box-sizing: border-box;
+}
+
 body {
-            background-color: #05210b;
-            color: #23D962;
-            font-family: 'VT323', monospace;
-            font-size: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            margin: 0;
-            padding: 30px;
-            box-sizing: border-box;
-            overflow: hidden;
-            text-shadow: 0 0 5px rgba(35, 217, 98, 0.5);
-        }
+    background-color: #05210b;
+    color: #23D962;
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem; /* Osnovna velikost za mobilne naprave */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    padding: 15px;
+    text-shadow: 0 0 5px rgba(35, 217, 98, 0.5);
+    position: relative;
+    overflow: hidden; /* Prepreči "skakanje" cele strani */
+}
 
-        body::before {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%);
-            z-index: 10;
-            background-size: 100% 4px;
-            pointer-events: none;
-        }
+/* Prilagoditev za večje zaslone (PC) */
+@media (min-width: 768px) {
+    body {
+        font-size: 1.5rem;
+        padding: 30px;
+    }
+}
 
-        #terminal {
-            flex-grow: 1;
-            overflow-y: auto;
-            scrollbar-width: none;
-        }
+/* --- RETRO SCANLINE EFEKT --- */
+body::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%);
+    z-index: 100; /* Vedno na vrhu */
+    background-size: 100% 4px;
+    pointer-events: none;
+}
 
-        #terminal::-webkit-scrollbar { display: none; }
+/* --- TERMINAL VSEBINA --- */
+#terminal {
+    flex-grow: 1;
+    overflow-y: auto;
+    scrollbar-width: none; /* Skrije scrollbar na Firefoxu */
+    -ms-overflow-style: none; /* Skrije scrollbar na IE/Edge */
+    padding-bottom: 50px;
+}
 
-        pre {
-            font-family: 'VT323', monospace;
-            line-height: 1;
-            color: #23D962;
-            margin: 0;
-            white-space: pre;
-            font-weight: 900; 
-            text-shadow: 0 0 2px #23D962, 0 0 8px rgba(35, 217, 98, 0.8);
-            letter-spacing: 1px;
-        }
+#terminal::-webkit-scrollbar { 
+    display: none; /* Skrije scrollbar na Chrome/Safari */
+}
 
-        .input-line {
-            display: flex;
-            align-items: center;
-            z-index: 11;
-            margin-top: 20px;
-        }
+/* --- ODGOVORI IN BESEDILO --- */
+.response { 
+    color: #23D962; 
+    margin-bottom: 15px; 
+    padding-left: 5px; 
+    white-space: pre-wrap; /* Prelomi dolge vrstice na telefonu */
+    word-wrap: break-word;
+}
 
-        .prompt {
-            color: #23D962;
-            font-weight: bold;
-            margin-right: 10px;
-            white-space: nowrap;
-        }
+.history-item { 
+    margin-top: 5px; 
+}
 
-        /* Skrijemo pravi kurzor in input */
-        #command-input {
-            position: absolute;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            left: 0;
-            top: 0;
-            cursor: default;
-            caret-color: transparent;
-        }
+/* --- ASCII ART IN PRE FORMATED --- */
+pre {
+    font-family: 'Courier New', Courier, monospace; 
+    line-height: 1.1;
+    color: #23D962;
+    margin: 10px 0;
+    white-space: pre; /* ASCII art ne sme prelamljati vrstic */
+    overflow-x: auto; /* Doda vodoravni drsnik, če je slika preširoka za telefon */
+    font-weight: 900; 
+    text-shadow: 0 0 5px #23D962;
+    letter-spacing: 0;
+    font-size: 0.6rem; /* Zelo majhna pisava za ASCII na telefonu */
+}
 
-        .cursor {
-            display: inline-block;
-            width: 12px;
-            height: 1.4rem;
-            background-color: #23D962;
-            margin-left: 2px;
-            animation: blink 0.8s infinite;
-            vertical-align: middle;
-        }
+@media (min-width: 600px) {
+    pre {
+        font-size: 1rem; /* Večja pisava na PCju */
+    }
+}
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
+/* --- VNOSNA VRSTICA --- */
+.input-line {
+    display: flex;
+    align-items: center;
+    z-index: 10;
+    margin-top: 10px;
+    background-color: #05210b; /* Prekrije tekst, ko drsaš navzdol */
+}
 
-        .response { 
-            color: #23D962; 
-            margin-bottom: 15px; 
-            padding-left: 10px; 
-            white-space: pre-wrap;
-        }
+.prompt {
+    color: #23D962;
+    font-weight: bold;
+    margin-right: 10px;
+    white-space: nowrap;
+}
 
-        .history-item { margin-top: 5px; }
+/* Skrijemo pravi input, a ga pustimo dostopnega */
+#command-input {
+    position: absolute;
+    opacity: 0;
+    width: 0.1px;
+    height: 0.1px;
+    pointer-events: none;
+}
 
-        .response a {
-    color: #ffff00; /* Rumena barva, da izstopa */
+/* --- KURZOR --- */
+.cursor {
+    display: inline-block;
+    width: 10px;
+    height: 1.2rem;
+    background-color: #23D962;
+    margin-left: 2px;
+    animation: blink 0.8s infinite;
+    vertical-align: middle;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* --- POVEZAVE --- */
+.response a {
+    color: #ffff00;
     text-decoration: underline;
     cursor: pointer;
 }
@@ -104,13 +137,31 @@ body {
     color: #05210b;
 }
 
-.cursor {
-    display: inline-block;
-    width: 10px;
-    height: 20px;
-    background-color: #23D962;
-    animation: blink 0.8s infinite;
-    vertical-align: middle;
+/* --- DODATEK ZA SPOTIFY IFRAME --- */
+iframe {
+    max-width: 100%; /* Da se na telefonu ne raztegne čez rob */
+}
+
+/* Razred, ki se aktivira ob lofi ukazu */
+.lofi-background {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                      url('https://open.spotify.com/genre/0JQ5DAqbMKH9799B7v4M7r'); /* Tu lahko vstaviš direktno povezavo do GIF-a */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* Poseben stil za izpis časa v kotu terminala */
+#timer-display {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-family: 'Courier New', monospace;
+    font-size: 2rem;
+    color: #23D962;
+    text-shadow: 0 0 10px #23D962;
+    z-index: 1000;
+    pointer-events: none;
 }
 
 @keyframes blink {
@@ -119,15 +170,49 @@ body {
     100% { opacity: 1; }
 }
 
-.cursor-active {
-    background-color: #23D962; /* Zelena barva tvojega terminala */
-    color: #000;              /* Tekst pod kurzorjem naj bo črn za kontrast */
-    display: inline-block;
-    min-width: 8px;
-    line-height: 1;
+@keyframes glitch-hard {
+    0% {
+        clip-path: inset(40% 0 61% 0);
+        transform: translate(-10px, -5px);
+    }
+    20% {
+        clip-path: inset(92% 0 1% 0);
+        transform: translate(10px, 5px);
+    }
+    40% {
+        clip-path: inset(43% 0 1% 0);
+        transform: translate(-5px, 10px);
+    }
+    60% {
+        clip-path: inset(25% 0 58% 0);
+        transform: translate(5px, -10px);
+    }
+    80% {
+        clip-path: inset(54% 0 7% 0);
+        transform: translate(-10px, 5px);
+    }
+    100% {
+        clip-path: inset(58% 0 43% 0);
+        transform: translate(0);
+    }
 }
 
-pre {
-    white-space: pre; /* Prepreči prelamljanje vrstic */
-    overflow-x: auto; /* Omogoči vodoravno drsenje, če je slika preširoka */
+.glitch-active {
+    animation: glitch-hard 0.2s infinite;
+    position: relative;
+    background: #05210b !important; /* Prisilimo ozadje, da se vidi kontrast */
+}
+
+/* Dodamo še barvno popačenje preko pseudo elementa */
+.glitch-active::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 2px;
+    width: 100%; height: 100%;
+    background: #05210b;
+    color: #ff0000;
+    clip-path: inset(0 0 0 0);
+    animation: glitch-hard 0.3s infinite reverse;
+    opacity: 0.5;
+    z-index: -1;
 }
