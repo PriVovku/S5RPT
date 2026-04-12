@@ -501,3 +501,153 @@ const rptDatabase = [
             'z': { slo: 'ZALOG', int: 'ZULU' },
             'ž': { slo: 'ŽALEC', int: '/' }
         };
+
+        const jokes = [
+    "Electrical Engineers only strip to make ends meet.",
+    "What's ham radio called in italian?\nRadioprosciutto.",
+    "Did you hear about the two antennas that got married?\nThe ceremony wasn't much, but the reception was great!",
+    "Old hams don’t die, they just become better grounded.",
+    "The dummy load is between the chair and the microphone...",
+    "Never trust an electrical engineer without eyebrows.",
+
+    // novi
+    "Why do programmers prefer dark mode?\nBecause light attracts bugs.",
+    "I told my radio a joke...\nIt didn't get the signal.",
+    "Why did the capacitor kiss the diode?\nBecause he just couldn’t resistor.",
+    "I would tell you a UDP joke...\nbut you might not get it.",
+    "Why was the math book sad?\nBecause it had too many problems.",
+    "Why do Java developers wear glasses?\nBecause they don’t C#.",
+    "I tried to catch fog yesterday...\nMist.",
+    "Why don’t engineers like nature?\nToo many bugs.",
+    "Why did the function return early?\nBecause it had a timeout.",
+    "Debugging: Being the detective in a crime movie where you are also the murderer.",
+    "Why did the signal break up?\nToo much interference.",
+    "Why did the server go to therapy?\nToo many requests.",
+    "Why was the computer cold?\nIt left its Windows open.",
+    "Why don’t circuits ever get lost?\nThey always follow current paths.",
+    "I asked my code if it worked...\nIt said: 'It compiles, what more do you want?'",
+    "Why did the antenna go to school?\nTo improve its reception.",
+    "Why was the radio always calm?\nIt knew how to stay tuned.",
+    "Why did the signal get lost?\nIt couldn’t find the right frequency.",
+    "Why did the ham operator bring a ladder?\nTo reach higher bands.",
+    "Why are RF engineers bad at relationships?\nToo much impedance.",
+    "Why did the oscillator break up?\nIt couldn’t keep a stable relationship.",
+    "Why did the electron feel positive?\nBecause it lost a negative friend.",
+    "Why did the resistor break up with the capacitor?\nThere was too much resistance.",
+    "Why did the transistor get promoted?\nIt had great amplification skills.",
+    "Why do antennas make great friends?\nThey always pick up your vibes.",
+    "Why was the frequency nervous?\nIt kept getting modulated.",
+    "Why did the engineer go broke?\nBecause he lost his current job.",
+    "Why did the wire go to therapy?\nIt had too many connections.",
+    "Why don’t RF signals get lonely?\nThey’re always in the air.",
+    "Why did the circuit fail the test?\nIt couldn’t handle the pressure.",
+    "Why did the voltage stay calm?\nIt knew how to stay grounded.",
+    "Why did the signal cross the road?\nTo get to the other sideband.",
+    "Why did the radio blush?\nIt picked up something dirty on the frequency.",
+    "Why did the engineer sit on the antenna?\nBetter reception.",
+    "Why do radio operators love silence?\nLess noise floor."
+    
+];
+
+const commands = {
+   "help": (args) => {
+    const podrocje = (args && args.length > 0) ? args[0].toLowerCase() : null;
+
+    // --- POMOČ ZA RADIOAMATERJE ---
+    if (podrocje === "ham") {
+        return `[S5-HAM] RADIOAMATERSKI UKAZI:
+-----------------------------------------------------------
+log [klic] [s] [r] (ref) - Zabeleži zvezo v dnevnik.
+showlog    - Prikaže vse shranjene zveze.
+export     - Prenese dnevnik v ADIF formatu.
+prefix [iskanje] - DXCC info (npr. 'prefix s5').
+q [koda]   - Pomen Q-kod (npr. 'q qth').
+rpt [niz]  - Iskanje repetitorjev (npr. 'rpt nanos').
+phonetic [tekst] - Črkovanje (SLO/INT).
+morse [tekst]    - Pretvori v Morse kodo + zvok.
+freq / mode      - Nastavitev frekvence in načina.
+propagation      - Live solarni podatki in stanje pasov.
+dx               - Live DX spoti po svetu (DXWatch).
+antenna [tip] [MHz] - Izračun dimenzij antene (dipol, yagi...).`;
+    }
+
+    // --- POMOČ ZA ZABAVO IN MULTIMEDIJO ---
+    if (podrocje === "media") {
+        return `[S5-OS MULTIMEDIJA]:
+-----------------------------------------------------------
+radio [postaja] - Vklopi radio (lofi, balkan, techno, chill).
+radio list      - Seznam vseh radijskih postaj.
+radio off       - Izklopi radio.
+volume [0-100]  - Nastavitev glasnosti radia.
+spotify [stil]  - Odpre Spotify predvajalnik (retro, balkan...).
+snake           - Zagon retro igrice KAČA.
+joke            - Izpiše naključno inženirsko šalo.`;
+    }
+
+    // --- POMOČ ZA SISTEMSKA ORODJA ---
+    if (podrocje === "tools") {
+        return `[S5-OS ORODJA]:
+-----------------------------------------------------------
+calc [izraz]    - Matematični kalkulator (npr. calc 5*5).
+ai [vprašanje]  - Komunikacija z osrednjim procesorjem.
+vreme [kraj]    - Trenutna vremenska napoved in ASCII art.
+note [ukaz]     - Beležnica (dodaj, seznam, edit, brisi).
+img [url]       - Pretvori sliko z neta v ASCII art.
+google [niz]    - Odpre iskanje na Googlu.
+elektrika [kW] [kWh] - Izračun mesečne položnice za elektriko.`;
+    }
+
+    // --- SPLOŠNA POMOČ (DEFAULT) ---
+    return `[S5-OS GLAVNI MENI POMOČI]:
+-----------------------------------------------------------
+PODROČJA POMOČI:
+help ham   - Radioamaterski ukazi in dnevniki.
+help media - Radio, Spotify, igrice in zabava.
+help tools - Kalkulator, AI, vreme in beležka.
+help nomago- Navodila za vozni red avtobusov.
+
+OSNOVNI UKAZI:
+ls / cat   - Pregled in branje sistemskih datotek.
+sys        - Informacije o sistemu in operaterju.
+glitch-mode- Nastavitve vizualnih motenj (on/off).
+clear      - Počisti zaslon terminala.
+date       - Trenutni čas in datum.
+
+-----------------------------------------------------------
+TIP: Vtipkaj 'ls' za ogled datotek na disku!`;
+},
+    
+    "about": () => `Pozdravljen! :)
+Moje ime je Primož in dobrodošel v mojem peskovniku.
+Sem študent Elektrotehniškega faksa - smer avtomatika.
+
+V prostem času sodelujem pri:
+- Noordung labs: <a href="https://noordunglabs.si/" target="_blank" style="color: #23D962;">noordunglabs.si</a>
+- Radio klub: <a href="https://s59veg.si/" target="_blank" style="color: #23D962;">S59VEG</a>`,
+
+    "social": () => `Instagram: <a href="https://www.instagram.com/primoz_the_vovk/" target="_blank" style="color: #23D962;">@primoz_the_vovk</a>
+Facebook: <a href="https://www.facebook.com/profile.php?id=100011798947438" target="_blank" style="color: #23D962;">Primož Vovk</a>
+QRZ.com: <a href="https://www.qrz.com/db/S54UNC" target="_blank" style="color: #23D962;">S54UNC</a>`,
+
+    "date": () => "Trenutni čas: " + new Date().toLocaleString('sl-SI'),
+
+    "joke": () => jokes[Math.floor(Math.random() * jokes.length)],
+
+    "sys": () => `
+    .--.      <b>OPERATOR:</b> S54UNC (Primož)
+   |o_o |     <b>STAVBA:</b> FE Ljubljana
+   |:_/ |     <b>FAKS:</b> Avtomatika (2. letnik)
+  //   \\ \\    <b>STATUS:</b> 73 de S54UNC
+ (|     |)    <b>TERMINAL:</b> S5-OS v1.1
+ /'\_   _/      
+ \\___)=(___/  
+    `,
+
+    "coffee": () => `
+      (  )   (   )
+       ) (    ) (
+       ______      
+      |      |]  
+      \\______/    
+    Kava je pripravljena! Upam, da si opravil tisti izpit iz faksa.`
+};
